@@ -1,6 +1,6 @@
  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,6 +25,7 @@
 // onValue listens to any new changes, in this case a new message, get's snapshot of data and displays it in the textDisplayContainer
 
 const inputField = document.getElementById('userMessage');
+const displayText = document.querySelector('.displayTextContainer');
 
 
 
@@ -42,6 +43,23 @@ form.addEventListener('submit', function(e) {
   push(dbRef, newMessage);
   inputField.value = '';
 });
+
+onValue(dbRef, (data) => {
+  const allMessages = data.val();
+  const arrOfMessages = [];
+
+  for (let message in allMessages) {
+    const listMessageItems = document.createElement('li');
+    const sender = allMessages[message].senderId;
+    const sentMessage = allMessages[message].content;
+
+    const messageText = document.createTextNode(`${sender}: ${sentMessage}`);
+    listMessageItems.appendChild(messageText);
+
+    arrOfMessages.push(listMessageItems.outerHTML);
+  }
+  displayText.innerHTML = arrOfMessages.join('');
+})
 
 
 

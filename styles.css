@@ -282,6 +282,13 @@ main {
     border-radius: 6px;
 }
 
+ul {
+    list-style-type: none;
+    text-align: left;
+    line-height: 2rem;
+    padding: 0.5rem;
+}
+
 form {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-  import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,8 +24,27 @@
 // When user hits submit button, a new node is created in the root database and saves that message
 // onValue listens to any new changes, in this case a new message, get's snapshot of data and displays it in the textDisplayContainer
 
-const newMessage {
-    content: ''
-}
+const inputField = document.getElementById('userMessage');
+
+
+
+const form = document.querySelector('form');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const messageContent = inputField.value;
+  const newMessage = {
+    content: messageContent,
+    senderId: 'user123',
+    timestamp: Date.now()
+  };
+
+  push(dbRef, newMessage);
+  inputField.value = '';
+});
+
+
+
+
 
 
